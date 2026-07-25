@@ -2,7 +2,7 @@
 
 Page Pulse is a high-performance URL auditing and SEO diagnostic application. It is built to run in production, featuring input validation, SSRF protection, configurable caching, request rate limiting, concurrency queuing, and structured JSON logging.
 
-* **Live Deployment Link**: [Deploy on Render](https://page-pulse.onrender.com) *(Insert live URL here during final submission)*
+* **Live Deployment Link**: [page-pulse-1-f32t.onrender.com](https://page-pulse-1-f32t.onrender.com)
 * **Built for Digital Heroes Training Task** - [digitalheroesco.com](https://digitalheroesco.com)
 
 ---
