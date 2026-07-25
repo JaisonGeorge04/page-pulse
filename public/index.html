@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Pulse | Production-Grade URL Auditer</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons (CDN) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom Vanilla CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+  <div class="glow-container">
+    <div class="glow-sphere glow-sphere-1"></div>
+    <div class="glow-sphere glow-sphere-2"></div>
+  </div>
+
+  <div class="app-wrapper">
+    <header class="app-header">
+      <div class="logo-area">
+        <i data-lucide="activity" class="logo-icon"></i>
+        <h1>Page Pulse</h1>
+      </div>
+      <p class="tagline">Production-grade SEO & URL audit analytics with millisecond-precision diagnostics.</p>
+      
+      <div class="server-status" id="serverStatus">
+        <span class="status-dot pulse"></span>
+        <span class="status-text">Server: Online</span>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <!-- Input Section -->
+      <section class="card audit-card">
+        <form id="auditForm" class="audit-form">
+          <div class="input-wrapper">
+            <i data-lucide="link" class="input-icon"></i>
+            <input 
+              type="text" 
+              id="urlInput" 
+              placeholder="Enter a website URL (e.g., google.com or https://example.com)..." 
+              required
+            >
+          </div>
+          <button type="submit" id="submitBtn" class="btn btn-primary">
+            <span>Analyze Page</span>
+            <i data-lucide="arrow-right" class="btn-icon"></i>
+          </button>
+        </form>
+        
+        <div class="limits-info">
+          <div class="limit-item">
+            <i data-lucide="shield-alert"></i>
+            <span>SSRF Protection Active</span>
+          </div>
+          <div class="limit-item" id="rateLimitBadge">
+            <i data-lucide="zap"></i>
+            <span id="rateLimitText">Rate limit: 100 reqs/min</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Error State -->
+      <section id="errorAlert" class="error-alert hidden">
+        <i data-lucide="alert-octagon" class="error-icon"></i>
+        <div class="error-details">
+          <h3 id="errorTitle">Audit Failed</h3>
+          <p id="errorMessage">Something went wrong during the page check.</p>
+          <span id="errorRequestId" class="request-id">Request ID: --</span>
+        </div>
+      </section>
+
+      <!-- Loading State -->
+      <section id="loadingState" class="loading-state hidden">
+        <div class="spinner-container">
+          <div class="double-bounce1"></div>
+          <div class="double-bounce2"></div>
+        </div>
+        <h3>Auditing URL...</h3>
+        <p>Resolving DNS, executing fetch, and auditing page HTML structures.</p>
+        
+        <!-- Skeleton cards -->
+        <div class="skeleton-grid">
+          <div class="skeleton-item"></div>
+          <div class="skeleton-item"></div>
+          <div class="skeleton-item"></div>
+        </div>
+      </section>
+
+      <!-- Results Section -->
+      <section id="resultsSection" class="results-section hidden">
+        
+        <!-- Summary Cards Grid -->
+        <div class="summary-grid">
+          <!-- Status Code -->
+          <div class="summary-card">
+            <div class="card-header">
+              <span>Status Code</span>
+              <i data-lucide="globe" class="header-icon blue"></i>
+            </div>
+            <div class="card-val" id="summaryStatus">200 OK</div>
+            <p class="card-desc" id="summaryContentType">Content: text/html</p>
+          </div>
+
+          <!-- Response Time -->
+          <div class="summary-card">
+            <div class="card-header">
+              <span>Response Time</span>
+              <i data-lucide="timer" class="header-icon purple"></i>
+            </div>
+            <div class="card-val" id="summaryLatency">-- ms</div>
+            <p class="card-desc" id="summaryLatencyRating">Excellent</p>
+          </div>
+
+          <!-- Page Size -->
+          <div class="summary-card">
+            <div class="card-header">
+              <span>Page Size</span>
+              <i data-lucide="file-text" class="header-icon cyan"></i>
+            </div>
+            <div class="card-val" id="summaryPageSize">-- KB</div>
+            <p class="card-desc" id="summaryHttps">SSL: Secure</p>
+          </div>
+
+          <!-- Cache Status -->
+          <div class="summary-card">
+            <div class="card-header">
+              <span>Cache Status</span>
+              <i data-lucide="hard-drive" class="header-icon orange"></i>
+            </div>
+            <div class="card-val" id="summaryCacheStatus">MISS</div>
+            <p class="card-desc" id="summaryCacheTtl">Fresh audit executed</p>
+          </div>
+        </div>
+
+        <!-- Detailed Audit Metrics -->
+        <div class="details-section">
+          <h2>SEO Content Diagnostics</h2>
+          
+          <div class="details-grid">
+            <!-- Title Card -->
+            <div class="detail-card" id="cardTitle">
+              <div class="detail-top">
+                <div class="title-meta">
+                  <i data-lucide="tag" class="detail-icon"></i>
+                  <h3>Title Tag</h3>
+                </div>
+                <span class="badge" id="badgeTitle">GOOD</span>
+              </div>
+              <div class="detail-content">
+                <blockquote id="valTitle">"Example Domain"</blockquote>
+                <p class="length-indicator">Length: <span id="lenTitle">0</span> characters</p>
+                <p class="feedback-msg" id="msgTitle">Title is optimized.</p>
+              </div>
+            </div>
+
+            <!-- Meta Description Card -->
+            <div class="detail-card" id="cardDesc">
+              <div class="detail-top">
+                <div class="title-meta">
+                  <i data-lucide="align-left" class="detail-icon"></i>
+                  <h3>Meta Description</h3>
+                </div>
+                <span class="badge" id="badgeDesc">GOOD</span>
+              </div>
+              <div class="detail-content">
+                <blockquote id="valDesc">"Example description text goes here..."</blockquote>
+                <p class="length-indicator">Length: <span id="lenDesc">0</span> characters</p>
+                <p class="feedback-msg" id="msgDesc">Description is optimized.</p>
+              </div>
+            </div>
+
+            <!-- Heading 1 Card -->
+            <div class="detail-card" id="cardH1">
+              <div class="detail-top">
+                <div class="title-meta">
+                  <i data-lucide="heading-1" class="detail-icon"></i>
+                  <h3>Heading H1</h3>
+                </div>
+                <span class="badge" id="badgeH1">GOOD</span>
+              </div>
+              <div class="detail-content">
+                <p class="h1-count">Count: <span id="countH1">0</span></p>
+                <ul class="heading-list" id="listH1">
+                  <!-- headings inserted dynamically -->
+                </ul>
+                <p class="feedback-msg" id="msgH1">H1 structure is optimized.</p>
+              </div>
+            </div>
+
+            <!-- Image Alt Tag Card -->
+            <div class="detail-card" id="cardImages">
+              <div class="detail-top">
+                <div class="title-meta">
+                  <i data-lucide="image" class="detail-icon"></i>
+                  <h3>Image Accessibility</h3>
+                </div>
+                <span class="badge" id="badgeImages">GOOD</span>
+              </div>
+              <div class="detail-content">
+                <div class="image-metric">
+                  <div class="image-metric-item">
+                    <span class="metric-num" id="totalImages">0</span>
+                    <span class="metric-label">Total Images</span>
+                  </div>
+                  <div class="image-metric-item">
+                    <span class="metric-num warning" id="missingAltImages">0</span>
+                    <span class="metric-label">Missing Alt</span>
+                  </div>
+                </div>
+                <p class="feedback-msg" id="msgImages">Alt tags are optimized.</p>
+              </div>
+            </div>
+
+            <!-- Links Mapping Card -->
+            <div class="detail-card">
+              <div class="detail-top">
+                <div class="title-meta">
+                  <i data-lucide="external-link" class="detail-icon"></i>
+                  <h3>Link Distribution</h3>
+                </div>
+                <span class="badge good">INFO</span>
+              </div>
+              <div class="detail-content">
+                <div class="link-stats">
+                  <div class="stat-row">
+                    <span>Total Links Analyzed:</span>
+                    <strong id="totalLinks">0</strong>
+                  </div>
+                  <div class="stat-row">
+                    <span>Internal Links:</span>
+                    <strong id="internalLinks">0</strong>
+                  </div>
+                  <div class="stat-row">
+                    <span>External Outbound:</span>
+                    <strong id="externalLinks">0</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>&copy; 2026 Page Pulse URL Audit System. All rights reserved.</p>
+      <p class="credit">
+        <a href="https://digitalheroesco.com" target="_blank" rel="noopener noreferrer">
+          Built for Digital Heroes Training Task
+        </a>
+      </p>
+    </footer>
+  </div>
+
+  <!-- Lucide icons auto placement -->
+  <script>
+    lucide.createIcons();
+  </script>
+  <!-- Frontend logic JS -->
+  <script src="app.js"></script>
+</body>
+</html>
