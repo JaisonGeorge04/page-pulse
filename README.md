@@ -98,7 +98,7 @@ Run a diagnostic audit on a target website URL.
     }
   },
   "cached": false
-}
+} 
 ```
 
 **Response Body (400 Bad Request / Validation Failure)**:
