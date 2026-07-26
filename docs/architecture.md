@@ -57,7 +57,7 @@ graph TD
    - Write completed reports to the Postgres database and cache results to Redis.
 5. **Persistent Storage (PostgreSQL)**:
    - Houses persistent user data, auditing histories, and metrics analytics.
-   - Configured with read-replicas to handle analytics dashboard workloads without impacting write transactions.
+   - Configured with read replicas to handle analytics dashboard workloads without impacting write transactions.
 
 ---
 
@@ -98,10 +98,10 @@ sequenceDiagram
             Queue-->>API: Job Enqueued (jobId)
             API-->>Client: 202 Accepted { jobId, status: "queued" }
             
-            Note over Client, Worker: Client begins polling GET /api/audit/status/:jobId or listens on WebSocket
+            Note to Client, Worker: Client begins polling GET /api/audit/status/:jobId or listens on WebSocket
             
             Queue->>Worker: Pull Job
-            Worker->>Worker: Execute Audit (DNS lookup, HTML scrap)
+            Worker->>Worker: Execute Audit (DNS lookup, HTML scraping)
             Worker->>DB: Save Report
             Worker->>Redis: Write Cache & Publish Event
             
