@@ -26,7 +26,7 @@ To guarantee the response-time SLA, we collect three categories of telemetry usi
 ### Structured Log Archiving:
 - Logs are outputted as structured JSON containing `requestId`, `timestamp`, `level`, `method`, `url`, `durationMs`, and `clientIp`.
 - Sent to a log aggregator (e.g. **Elasticsearch / Kibana** or **AWS CloudWatch**).
-- Incident responders can query `requestId:"uuid-here"` to view the entire request trace—from ingestion to DNS lookup and scraping outcome.
+- Incident responders can query `requestId: "uuid-here"` to view the entire request trace—from ingestion to DNS lookup and scraping outcome.
 
 ---
 
