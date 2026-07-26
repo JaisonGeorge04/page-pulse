@@ -12,7 +12,7 @@ This document outlines the three most likely failure modes at a scale of 10,000+
   2. **Domain-Specific Throttle Rates**: Implements a Redis lock per target hostname (e.g., `audit:domain-limit:example.com`). If a request for the same domain is received within a 3-second window, it is delayed or enqueued with a dependency deferral.
   3. **Scraper Evasion Signatures**:
      - Automatically alternate request headers (`User-Agent`, `Accept-Language`, `Referer`, `Sec-Ch-Ua`).
-     - Honoring HTTP response headers such as `Retry-After`.
+     - Honor HTTP response headers such as `Retry-After`.
      - Read and respect `robots.txt` crawl delay parameters before fetching.
 
 ---
@@ -24,7 +24,7 @@ This document outlines the three most likely failure modes at a scale of 10,000+
   1. **Strict Active Timeouts**:
      - Connect Timeout: Limit TCP handshake to 3 seconds.
      - Read Timeout: Abort the stream if no data is received within 3 seconds.
-     - Total Fetch Timeout: Force-kill request at 8 seconds.
+     - Total Fetch Timeout: Force-kill the request at 8 seconds.
   2. **Stream Limit Boundaries**: Read incoming response data as a stream. Track the total byte length read. If the body content exceeds 5MB (excessive for basic metadata SEO auditing), destroy the socket connection immediately.
   3. **Queue Isolation**: Maintain two queues: a `fast-queue` (for domains with a history of <1s response time) and a `slow-queue` (for heavy or historically slow domains). Workers are dedicated in a 4:1 ratio to ensure slow domains never starve healthy sites.
 
