@@ -5,7 +5,7 @@ Page Pulse is a high-performance URL auditing and SEO diagnostic application. It
 * **Live Deployment Link**: [page-pulse-1-f32t.onrender.com](https://page-pulse-1-f32t.onrender.com)
 * **Built for Digital Heroes Training Task** - [digitalheroesco.com](https://digitalheroesco.com)
 
----
+--- 
 
 ## Features 
 
