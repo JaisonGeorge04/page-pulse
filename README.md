@@ -91,7 +91,7 @@ Run a diagnostic audit on a target website URL.
         "message": "All images have alt tags."
       },
       "links": {
-        "total": 18,
+        "total": 18, 
         "internal": 14,
         "external": 4
       }
