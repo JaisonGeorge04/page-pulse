@@ -1,5 +1,5 @@
 import axios from 'axios';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import { validateUrlForSsrf } from '../utils/ssrf';
 import { AuditFailedError, ValidationError } from '../utils/errors';
 import { logger } from '../utils/logger';
