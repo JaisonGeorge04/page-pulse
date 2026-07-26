@@ -1,6 +1,6 @@
 # Observability and Rollback Plan - Page Pulse
 
-This document outlines the metrics monitoring, alerts thresholds, and deployment/rollback strategies for Page Pulse in production.
+This document outlines the metrics monitoring, alert thresholds, and deployment/rollback strategies for Page Pulse in production.
 
 ---
 
