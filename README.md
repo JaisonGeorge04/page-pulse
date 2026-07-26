@@ -9,7 +9,7 @@ Page Pulse is a high-performance URL auditing and SEO diagnostic application. It
 
 ## Features 
 
-- **Input Validation**: Schema validation using Zod.
+- **Input Validation**: Schema validation using Zod. 
 - **SSRF Protection**: Resolves target hostnames and blocks connections pointing to private, loopback, or reserved IP ranges (e.g. `127.0.0.1`, `10.0.0.0/8`, etc.).
 - **Response Timeouts**: Restricts slow target fetches to a configurable limit (default: 5 seconds).
 - **Concurrency Control**: Limits active outgoing fetches with a queue-backed semaphore.
