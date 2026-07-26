@@ -41,7 +41,7 @@ Run a diagnostic audit on a target website URL.
 * **Rate Limits**: Configurable (default: 100 requests per minute per IP).
 
 **Request Body**:
-```json
+```json 
 {
   "url": "https://google.com"
 }
