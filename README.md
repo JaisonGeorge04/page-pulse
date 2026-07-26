@@ -82,7 +82,7 @@ Run a diagnostic audit on a target website URL.
         "count": 1,
         "items": ["Google"],
         "status": "GOOD",
-        "message": "H1 structure is optimal."
+        "message": "H1 structure is optimal." 
       },
       "images": {
         "total": 1,
